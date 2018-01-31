@@ -8,8 +8,8 @@
 #include <ESP8266WiFi.h>
 
 // char * id = "********COLOCAR O NOME AQUI************";
-char * id = "Capella";
-int led = LED_BUILTIN; // 1
+char * id = "ESP-5";
+int led = D5; // 1
 
 char * host = "cpbr.capella.pro";
 char * ssid = "CCSL4_2.4GHz";
@@ -20,7 +20,7 @@ unsigned long previousMillis = 0;
 
 void setup() {
     pinMode(led, OUTPUT);
-    digitalWrite(led, HIGH);
+    digitalWrite(led, LOW);
 
     Serial.begin(115200);
 
@@ -77,10 +77,10 @@ void loop() {
             /* liga ou desliga o led dependendo do valor 
              * recebido */
             if (info == '1') {
-                digitalWrite(led, LOW);
+                digitalWrite(led, HIGH);
                 client.print("1\n");
             } else if (info == '0') {
-                digitalWrite(led, HIGH);
+                digitalWrite(led, LOW);
                 client.print("0\n");
             }
         }
