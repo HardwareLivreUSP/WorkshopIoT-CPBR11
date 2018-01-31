@@ -7,9 +7,8 @@
 **********************************************************/
 #include <ESP8266WiFi.h>
 
-// char * id = "********COLOCAR O NOME AQUI************";
-char * id = "ESP-5";
-int led = D5; // 1
+char * id = "********COLOCAR O NOME AQUI************";
+int led = D5; 
 
 char * host = "cpbr.capella.pro";
 char * ssid = "CCSL4_2.4GHz";
