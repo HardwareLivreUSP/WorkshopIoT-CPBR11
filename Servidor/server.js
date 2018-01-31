@@ -1,11 +1,21 @@
+/**********************************************************
+* WORKSHOP CAMPUS PARTY BRASIL 11
+* 31/01/2018
+* HARDWARE LIVRE USP
+* hardwarelivreus.org
+* tiny.cc/telegram-hlu
+**********************************************************/
+
 var net = require('net')
 var express = require('express')
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var httpserver = require('http').Server(app);
+var io = require('socket.io')(httpserver);
 
+// Disponibiliza arquicos públicos
 app.use(express.static(__dirname + '/public/'));
 
+// Objeto de dispositivos conectados
 var devices = {};
 
 function addDevice (id, socket) {
@@ -33,8 +43,6 @@ function changeStatus (id, status) {
     io.emit('change', { id: id, status: status });
   }
 }
-
-server.listen(80);
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/public/index.html');
@@ -109,5 +117,6 @@ tcpserver.on('error', (e) => {
   console.log(e)
 });
 
-// grab an arbitrary unused port.
+// Inicia servidores
 tcpserver.listen(8000);
+httpserver.listen(80);

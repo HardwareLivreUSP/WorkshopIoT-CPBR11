@@ -24,4 +24,4 @@ há todas as instruçes necessárias.
 
 #### Slides
 
-Estão disponíveis (aqui)[https://docs.google.com/presentation/d/1fCc5c39sTkuE1IqAmyhiGgyX-YGj3ik3Qn3P4J5iwFk/edit?usp=sharing].
+Estão disponíveis [aqui](https://docs.google.com/presentation/d/1fCc5c39sTkuE1IqAmyhiGgyX-YGj3ik3Qn3P4J5iwFk/edit?usp=sharing).

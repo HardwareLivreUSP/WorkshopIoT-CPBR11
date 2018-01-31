@@ -1,19 +1,23 @@
+/**********************************************************
+* WORKSHOP CAMPUS PARTY BRASIL 11
+* 31/01/2018
+* HARDWARE LIVRE USP
+* hardwarelivreus.org
+* tiny.cc/telegram-hlu
+**********************************************************/
+
 var socket = io.connect();
 
 function addCard(id){
-
-  // TITULO
   var card = $('<div class="card mb-4 box-shadow"></div>');
   card.attr('id',"card_" + id)
   var header = $('<div class="card-header"></div>');
   var title = $('<h4 class="my-0 font-weight-normal"></h4>');
   title.text(id)
 
-
   header.append(title)
   card.append(header)
 
-  //CORPO
   var body = $('<div class="card-body"></div>');
   var span = $('<span class="switch switch-lg"></span>');
   
@@ -37,13 +41,9 @@ function addCard(id){
   $(".card-deck").append(card);
 }
 
-
-
-//Remove Card
 function removeCard(id){  
   $("#card_" + id).remove();
 }
-
 
 function activateCard(id){
   $("#input_" + id).prop('checked', true);

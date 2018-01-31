@@ -1,83 +1,90 @@
-/*
- *  This sketch sends data via HTTP GET requests to data.sparkfun.com service.
- *
- *  You need to get streamId and privateKey at data.sparkfun.com and paste them
- *  below. Or just customize this script to talk to other HTTP servers.
- *
- */
-
+/**********************************************************
+* WORKSHOP CAMPUS PARTY BRASIL 11
+* 31/01/2018
+* HARDWARE LIVRE USP
+* hardwarelivreus.org
+* tiny.cc/telegram-hlu
+**********************************************************/
 #include <ESP8266WiFi.h>
 
-const char* host = "cpbr.capella.pro";
-const char* ssid = "CCSL4_2.4GHz";
-const char* password = "flossrulez";
-const char* id = "Capella";
-const int port = 8000;
+// char * id = "********COLOCAR O NOME AQUI************";
+char * id = "Capella";
+int led = LED_BUILTIN; // 1
 
-unsigned long previousMillis = 0;        // will store last time LED was updated
+char * host = "cpbr.capella.pro";
+char * ssid = "CCSL4_2.4GHz";
+char * password = "flossrulez";
+int port = 8000;
 
+unsigned long previousMillis = 0;
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
-  
-  Serial.begin(115200);
+    pinMode(led, OUTPUT);
+    digitalWrite(led, HIGH);
 
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  
-  /* Explicitly set the ESP8266 to be a WiFi-client, otherwise, it by default,
-     would try to act as both a client and an access-point and could cause
-     network-issues with your other WiFi-devices on your WiFi-network. */
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
+    Serial.begin(115200);
 
-  Serial.println("");
-  Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+    Serial.print("Conectando ao wifi ");
+    Serial.println(ssid);
+
+    /* configura o wifi como cliente */
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, password);
+
+    /* espera conectar */
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+
+    /* mostra informações da conexão */
+    Serial.println("");
+    Serial.println("WiFi conectado");  
+    Serial.println("IP: ");
+    Serial.println(WiFi.localIP());
 }
 
 void loop() {
-  delay(1000);
+    delay(1000);
 
-  Serial.print("connecting to ");
-  Serial.println(host);
-  
-  // Use WiFiClient class to create TCP connections
-  WiFiClient client;
-  const int httpPort = port;
-  if (client.connect(host, httpPort)) {
-      Serial.println("connected");
-      client.print("id"+String(id));
-  }
-  
-  while (client.connected()) {
-          unsigned long currentMillis = millis();
+    Serial.print("conectando ao servidor ");
+    Serial.println(host);
 
-  if (currentMillis - previousMillis >= 500) {
-    // save the last time you blinked the LED
-    previousMillis = currentMillis;
-    client.println();
-  }
-  
-    // Read all the lines of the reply from server and print them to Serial
-    while(client.available()){
-      char info = client.read();
-      if (info == '1') {
-        digitalWrite(LED_BUILTIN, LOW);
-        client.print("1\n");
-      } else if (info == '0') {
-        digitalWrite(LED_BUILTIN, HIGH);
-        client.print("0\n");
-      }
+    /* cria conexao tcp */
+    WiFiClient client;
+    const int httpPort = port;
+    if (client.connect(host, httpPort)) {
+        /* envia o id para o servidor */
+        Serial.println("conectado");
+        client.print("id"+String(id));
     }
-  }
-  
-  Serial.println("closing connection");
+
+
+    while (client.connected()) {
+        /* envia um byte para falar que esta ativo */
+        /* heartbeat */
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= 500) {
+            previousMillis = currentMillis;
+            client.println();
+        }
+
+        /* verifica se a dados a serem lidos */
+        while(client.available()){
+
+            char info = client.read();
+
+            /* liga ou desliga o led dependendo do valor 
+             * recebido */
+            if (info == '1') {
+                digitalWrite(led, LOW);
+                client.print("1\n");
+            } else if (info == '0') {
+                digitalWrite(led, HIGH);
+                client.print("0\n");
+            }
+        }
+    }
+
+    Serial.println("encerrando conexao");
 }
