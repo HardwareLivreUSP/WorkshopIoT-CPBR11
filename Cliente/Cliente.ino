@@ -8,8 +8,8 @@
 #include <ESP8266WiFi.h>
 
 char * id = "********COLOCAR O NOME AQUI************";
-int led = D5; 
 
+int led = D5; 
 char * host = "cpbr.capella.pro";
 char * ssid = "CCSL4_2.4GHz";
 char * password = "flossrulez";
@@ -55,7 +55,7 @@ void loop() {
     if (client.connect(host, httpPort)) {
         /* envia o id para o servidor */
         Serial.println("conectado");
-        client.print("id"+String(id));
+        client.println("id"+String(id));
     }
 
 
@@ -69,7 +69,7 @@ void loop() {
         }
 
         /* verifica se a dados a serem lidos */
-        while(client.available()){
+        while(client.available() > 0){
 
             char info = client.read();
 
