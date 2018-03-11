@@ -87,7 +87,7 @@ var tcpserver = net.createServer((socket) => {
     if (data.length >= 2 && data.slice(0,2) == 'id'&& id == null) {
       var idtmp = data.slice(2, data.length);
       if (id == '') return;
-      id = idtmp;
+      id = idtmp.replace(/[^a-z0-9\-]/gi,'');
       if (devices[id] != undefined) delete devices[id];
       addDevice(id, socket);
     } else if (id != null && data.length == 1) {

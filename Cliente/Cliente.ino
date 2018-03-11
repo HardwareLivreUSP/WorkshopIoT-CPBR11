@@ -10,9 +10,9 @@
 char * id = "********COLOCAR O NOME AQUI************";
 
 int led = D5; 
-char * host = "cpbr.capella.pro";
-char * ssid = "CCSL4_2.4GHz";
-char * password = "flossrulez";
+char * host = "sigex.capella.pro";
+char * ssid = "SIGEX";
+char * password = "hardware";
 int port = 8000;
 
 unsigned long previousMillis = 0;
@@ -69,7 +69,7 @@ void loop() {
         }
 
         /* verifica se a dados a serem lidos */
-        while(client.available() > 0){
+        while(client.available()){
 
             char info = client.read();
 
